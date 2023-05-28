@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D2D9FDE2A23478B00D47D43 /* AnimalRecognitionModel.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 1D2D9FDD2A23478B00D47D43 /* AnimalRecognitionModel.mlmodel */; };
+		1D2D9FE22A23935500D47D43 /* AnimalRecognitionModel.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 1D2D9FE12A23935500D47D43 /* AnimalRecognitionModel.mlpackage */; };
 		1D7974572A23269400CC3416 /* AnimalClassifierApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7974562A23269400CC3416 /* AnimalClassifierApp.swift */; };
 		1D7974592A23269400CC3416 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7974582A23269400CC3416 /* ContentView.swift */; };
 		1D79745B2A23269500CC3416 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D79745A2A23269500CC3416 /* Assets.xcassets */; };
@@ -15,7 +15,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1D2D9FDD2A23478B00D47D43 /* AnimalRecognitionModel.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = AnimalRecognitionModel.mlmodel; sourceTree = "<group>"; };
+		1D2D9FE12A23935500D47D43 /* AnimalRecognitionModel.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = AnimalRecognitionModel.mlpackage; sourceTree = "<group>"; };
 		1D7974532A23269400CC3416 /* AnimalClassifier.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnimalClassifier.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D7974562A23269400CC3416 /* AnimalClassifierApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalClassifierApp.swift; sourceTree = "<group>"; };
 		1D7974582A23269400CC3416 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -55,7 +55,7 @@
 			children = (
 				1D7974562A23269400CC3416 /* AnimalClassifierApp.swift */,
 				1D7974582A23269400CC3416 /* ContentView.swift */,
-				1D2D9FDD2A23478B00D47D43 /* AnimalRecognitionModel.mlmodel */,
+				1D2D9FE12A23935500D47D43 /* AnimalRecognitionModel.mlpackage */,
 				1D79745A2A23269500CC3416 /* Assets.xcassets */,
 				1D79745C2A23269500CC3416 /* Preview Content */,
 			);
@@ -141,7 +141,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D7974592A23269400CC3416 /* ContentView.swift in Sources */,
-				1D2D9FDE2A23478B00D47D43 /* AnimalRecognitionModel.mlmodel in Sources */,
+				1D2D9FE22A23935500D47D43 /* AnimalRecognitionModel.mlpackage in Sources */,
 				1D7974572A23269400CC3416 /* AnimalClassifierApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

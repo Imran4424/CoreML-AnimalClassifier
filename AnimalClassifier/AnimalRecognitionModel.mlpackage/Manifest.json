@@ -1,0 +1,24 @@
+{
+    "fileFormatVersion": "1.0.0",
+    "itemInfoEntries": {
+        "00921EED-A8D5-4FAE-BE23-EB20BABC3713": {
+            "author": "com.apple.CoreML",
+            "description": "External FeatureDescription Overlay",
+            "name": "FeatureDescriptions.json",
+            "path": "com.apple.CoreML/FeatureDescriptions.json"
+        },
+        "04E53063-18B2-4044-9307-A9F3D7088E0C": {
+            "author": "com.apple.CoreML",
+            "description": "CoreML Model Specification",
+            "name": "AnimalRecognitionModel 1.mlmodel",
+            "path": "com.apple.CoreML/AnimalRecognitionModel 1.mlmodel"
+        },
+        "5566DE44-5CF7-453A-A944-5CA172E9D134": {
+            "author": "com.apple.CoreML",
+            "description": "External Metadata Overlay",
+            "name": "Metadata.json",
+            "path": "com.apple.CoreML/Metadata.json"
+        }
+    },
+    "rootModelIdentifier": "04E53063-18B2-4044-9307-A9F3D7088E0C"
+}
