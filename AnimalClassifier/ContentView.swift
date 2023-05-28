@@ -14,7 +14,8 @@ struct ContentView: View {
     @State private var isShowingImagePicker = false
     @State private var imageItem: PhotosPickerItem?
     @State private var selectedImage: Image?
-    @State private var predictedAnimal: String = "None"
+    @State private var predictedAnimal: String = "Processing"
+    @State private var ciImage = CIImage()
     
     var body: some View {
         NavigationStack {
@@ -43,9 +44,17 @@ struct ContentView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 300, height: 300)
+                        
+                        Text("Predicted Animal - \(predictedAnimal)")
                     }
                     
+                    Spacer()
                     PhotosPicker("Select an Image to classify", selection: $imageItem, matching: .images)
+                    Spacer()
+                    
+                    Button("RECOGNIZE") {
+                        recognizeAnimal()
+                    }
                 }
                 .frame(maxHeight: .infinity)
             }
@@ -54,6 +63,10 @@ struct ContentView: View {
                     if let data = try? await imageItem?.loadTransferable(type: Data.self) {
                         if let uiImage = UIImage(data: data) {
                             selectedImage = Image(uiImage: uiImage)
+                            // clearing data after selection
+                            predictedAnimal = "Processing"
+                            
+                            ciImage = CIImage(image: uiImage)!
                             return
                         }
                     }
@@ -68,7 +81,6 @@ struct ContentView: View {
 // MARK: - Actions
 extension ContentView {
     func recognizeAnimal() {
-        
     }
 }
 
