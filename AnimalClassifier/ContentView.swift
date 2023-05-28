@@ -81,6 +81,31 @@ struct ContentView: View {
 // MARK: - Actions
 extension ContentView {
     func recognizeAnimal() {
+        guard let model = try? VNCoreMLModel(for: AnimalRecognitionModel(configuration: MLModelConfiguration()).model) else {
+            fatalError("Can not load CoreML model")
+        }
+        
+        let request = VNCoreMLRequest(model: model) { (request, error) in
+            guard let results = request.results as? [VNClassificationObservation] else {
+                fatalError("Model failed to process image")
+            }
+            
+            guard let firstResult = results.first else {
+                fatalError("can not fetch first result")
+            }
+            
+            
+            
+            print(results)
+        }
+        
+        let handler = VNImageRequestHandler(ciImage: ciImage)
+        
+        do {
+            try handler.perform([request])
+        } catch {
+            print(error)
+        }
     }
 }
 
