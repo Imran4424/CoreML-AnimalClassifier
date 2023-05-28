@@ -86,17 +86,22 @@ extension ContentView {
         }
         
         let request = VNCoreMLRequest(model: model) { (request, error) in
-            guard let results = request.results as? [VNClassificationObservation] else {
+            guard let results = request.results else {
                 predictedAnimal = "Unable to process Imge"
 //                fatalError("Model failed to process image")
                 return
             }
             
-            guard let firstResult = results.first else {
+            let classifications = results
+                        .compactMap({ $0 as? VNClassificationObservation })
+                        .filter({ $0.confidence > 0.8 })
+                        .map({ $0.identifier })
+            
+            guard let firstResult = classifications.first else {
                 fatalError("can not fetch first result")
             }
             
-            predictedAnimal = firstResult.identifier
+            predictedAnimal = firstResult
             
             print(results)
         }
