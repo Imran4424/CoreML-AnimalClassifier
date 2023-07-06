@@ -5,15 +5,17 @@
 //  Created by Shah Md Imran Hossain on 28/5/23.
 //
 
+import AVFoundation
 import CoreML
+import CoreVideo
 import PhotosUI
 import SwiftUI
-import Vision
 
 struct ContentView: View {
     @State private var isShowingImagePicker = false
     @State private var imageItem: PhotosPickerItem?
     @State private var selectedImage: Image?
+    @State private var pixelBuffer: CVPixelBuffer?
     @State private var predictedAnimal: String = "Processing"
     @State private var ciImage = CIImage()
     
@@ -67,6 +69,7 @@ struct ContentView: View {
                             predictedAnimal = "Processing"
                             
                             ciImage = CIImage(image: uiImage)!
+                            pixelBuffer = convertToPixelBuffer(image: uiImage)
                             return
                         }
                     }
@@ -81,33 +84,71 @@ struct ContentView: View {
 // MARK: - Actions
 extension ContentView {
     func recognizeAnimal() {
-        guard let model = try? VNCoreMLModel(for: AnimalRecognitionModel(configuration: MLModelConfiguration()).model) else {
-            fatalError("Can not load CoreML model")
-        }
-        
-        let request = VNCoreMLRequest(model: model) { (request, error) in
-            guard let results = request.results as? [VNClassificationObservation] else {
-                predictedAnimal = "Unable to process Imge"
-//                fatalError("Model failed to process image")
+        do {
+            let config = MLModelConfiguration()
+            let model = try AnimalRecognitionModel(configuration: config)
+            
+            guard let pixelBuffer else {
+                print("failed to unwrap pixel buffer")
                 return
             }
             
-            guard let firstResult = results.first else {
-                fatalError("can not fetch first result")
-            }
-            
-            predictedAnimal = firstResult.identifier
-            
-            print(results)
-        }
-        
-        let handler = VNImageRequestHandler(ciImage: ciImage)
-        
-        do {
-            try handler.perform([request])
+            let prediction = try model.prediction(image: pixelBuffer)
+            predictedAnimal = String(prediction.classLabel)
         } catch {
-            print(error)
+            
         }
+    }
+    
+    func createPixelBuffer(width: Int, height: Int) -> CVPixelBuffer? {
+        var pixelBuffer: CVPixelBuffer?
+        let attributes = [
+            kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue,
+            kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue
+        ]
+        
+        let status = CVPixelBufferCreate(
+            kCFAllocatorDefault,
+            width,
+            height,
+            kCVPixelFormatType_32ARGB,
+            attributes as CFDictionary,
+            &pixelBuffer
+        )
+        
+        if status != kCVReturnSuccess {
+            return nil
+        }
+        
+        return pixelBuffer
+    }
+    
+    func convertToPixelBuffer(image: UIImage) -> CVPixelBuffer? {
+        guard let pixelBuffer = createPixelBuffer(width: Int(image.size.width), height: Int(image.size.height)) else {
+            return nil
+        }
+        
+        CVPixelBufferLockBaseAddress(pixelBuffer, CVPixelBufferLockFlags(rawValue: 0))
+        let pixelData = CVPixelBufferGetBaseAddress(pixelBuffer)
+        
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+        let context = CGContext(
+            data: pixelData,
+            width: Int(image.size.width),
+            height: Int(image.size.height),
+            bitsPerComponent: 8,
+            bytesPerRow: CVPixelBufferGetBytesPerRow(pixelBuffer),
+            space: colorSpace,
+            bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue
+        )
+        
+        if let context = context {
+            context.draw(image.cgImage!, in: CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height))
+        }
+        
+        CVPixelBufferUnlockBaseAddress(pixelBuffer, CVPixelBufferLockFlags(rawValue: 0))
+        
+        return pixelBuffer
     }
 }
 
